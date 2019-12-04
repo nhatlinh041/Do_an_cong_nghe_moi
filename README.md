@@ -10,6 +10,7 @@ Thư viện cần sử dụng:
 tensorflow==1.13.1
 scipy
 scikit-learn
+
 opencv-python
 h5py
 matplotlib
