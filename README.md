@@ -8,12 +8,19 @@ link: https://drive.google.com/file/d/1_VFpNlpmshR6ISN7ix0vLSyY9_vWJFEW/view?usp
 
 Thư viện cần sử dụng:
 tensorflow==1.13.1
+
 scipy
+
 scikit-learn
 
 opencv-python
+
 h5py
+
 matplotlib
+
 Pillow
+
 requests
+
 psutil
