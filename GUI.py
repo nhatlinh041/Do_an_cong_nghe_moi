@@ -3,7 +3,7 @@ from tkinter import font  as tkfont # python 3
 import os
 from tkinter import filedialog
 from PIL import Image,ImageTk
-import requests 
+import requests
 import cv2
 import shutil
 from tkinter import messagebox
@@ -14,7 +14,7 @@ class SampleApp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        self.minsize(750,500)
+        self.minsize(590,300)
         self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")        
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
@@ -57,7 +57,7 @@ class StartPage(tk.Frame):
         self.controller = controller
         #tao listbox
         self.lbox_id=tk.Listbox(self,selectmode='single')
-        self.lbox_id.place(x=0,y=0)
+        self.lbox_id.place(x=10,y=10)
         #self.lbox_id.pack(side='left')
         
         #lay list file
@@ -68,7 +68,7 @@ class StartPage(tk.Frame):
 
         #tao list image 
         self.lbox_list_img=tk.Listbox(self,selectmode='single')
-        self.lbox_list_img.place(x=180,y=0)
+        self.lbox_list_img.place(x=180,y=10)
         #self.lbox_list_img.pack(side='left')
 
         #double click len item trong list img 
@@ -79,51 +79,51 @@ class StartPage(tk.Frame):
         self.image = self.image.resize((250, 250), Image.ANTIALIAS) ## The (250, 250) is (height, width)
         self.pic = ImageTk.PhotoImage(self.image)
         self.panel=tk.Label(self,image=self.pic)
-        self.panel.place(x=180+130,y=0)
+        self.panel.place(x=190+130,y=10)
         #self.panel.pack()
         
         #add button Themid
         self.button_them_id=tk.Button(self,text='Thêm ID',command=lambda: controller.show_frame("PageOne"))
-        self.button_them_id.place(x=5,y=180)
+        self.button_them_id.place(x=10,y=180)
         #button_cmd.pack(side='bottom')
 
 
         #add button Xoa id
         self.button_cmd=tk.Button(self,text='Xóa ID',command=lambda: self.Xoa_id_click())
-        self.button_cmd.place(x=5+70,y=180)
+        self.button_cmd.place(x=89,y=180)
 
         #add button Them anh
         self.button_cmd=tk.Button(self,text='Thêm ảnh',command=lambda: self.fileDialog_them_anh())
-        self.button_cmd.place(x=5+70+40+70,y=180)
+        self.button_cmd.place(x=70+40+70,y=180)
 
         #add button Xoa anh
         self.btn_xoa_anh=tk.Button(self,text='Xóa ảnh',command=lambda: self.xoa_link_anh())
-        self.btn_xoa_anh.place(x=5+70+40+45+100,y=180)
+        self.btn_xoa_anh.place(x=70+40+40+100,y=180)
 
 
         #add button Refresh
         self.button_refresh=tk.Button(self,text='Refresh',command=lambda: self.load_list_id())
-        self.button_refresh.place(x=100,y=250)
+        self.button_refresh.place(x=10,y=220)
 
 
         #add button run cmd live cam
         self.button_run_cmd=tk.Button(self,text='Live cam',command=lambda: self.mycmd())
-        self.button_run_cmd.place(x=100,y=300)
+        self.button_run_cmd.place(x=10,y=255)
 
         ##add button run cmd video import
         self.button_run_cmd=tk.Button(self,text='Import video',command=lambda: self.mycmd_import())
-        self.button_run_cmd.place(x=200,y=300)
+        self.button_run_cmd.place(x=90,y=255)
 
         #Thêm textbox threshsold
-        self.lbl_thresh_sold=tk.Label(self,text="Thresh sold")
-        self.lbl_thresh_sold.place(x=130,y=350)
+        self.lbl_thresh_sold=tk.Label(self,text="Threshold:")
+        self.lbl_thresh_sold.place(x= 89,y=225)
         self.txt_thresh_sold=tk.Entry(self)
         self.txt_thresh_sold.insert(tk.END ,'1.2')
-        self.txt_thresh_sold.place(x=200,y=350)
+        self.txt_thresh_sold.place(x= 159,y=225)
 
         #Thêm button xem ảnh của người lạ
         self.btn_nguoi_la=tk.Button(self,text='Danh sách người lạ',command=lambda: controller.show_frame("PageTwo"))
-        self.btn_nguoi_la.place(x=300,y=400)
+        self.btn_nguoi_la.place(x=190,y=255)
 
     def mycmd(self):
         os.system('start /wait cmd /k python main.py ./20180402-114759/saved_model.pb ./ids '+ self.link_video +' --threshold '+self.txt_thresh_sold.get())
@@ -226,41 +226,41 @@ class PageOne(tk.Frame):
 
         #Thêm textbox id
         self.ten_id=tk.Entry(self)
-        self.ten_id.place(x=20,y=30)
+        self.ten_id.place(x=10,y=30)
 
         #Thêm label 
         self.label = tk.Label(self, text="Danh sách ảnh: ")
-        self.label.place(x=200,y=10)
+        self.label.place(x=150,y=10)
 
         #thêm list ảnh
         self.lbox_list_img_id_moi=tk.Listbox(self,selectmode='single',)
-        self.lbox_list_img_id_moi.place(x=200,y=30)
+        self.lbox_list_img_id_moi.place(x=150,y=30)
 
         #tao button browse anh
         self.btn_browse_anh=tk.Button(self, text='Browse',command=lambda: self.fileDialog())
-        self.btn_browse_anh.place(x=200, y=200)
+        self.btn_browse_anh.place(x=150, y=200)
 
         #default img
         self.image = Image.open('.\\Capture.jpg')
         self.image = self.image.resize((250, 250), Image.ANTIALIAS) ## The (250, 250) is (height, width)
         self.pic = ImageTk.PhotoImage(self.image)
         self.panel=tk.Label(self,image=self.pic)
-        self.panel.place(x=180+150,y=0)
+        self.panel.place(x=180+140,y=10)
 
         #double click vao link anh
         self.lbox_list_img_id_moi.bind('<Double-1>',lambda event: self.onDoubleLeftClick())
 
         #tao button xoa anh
         self.btn_xoa_anh=tk.Button(self,text='Xóa ảnh',command=lambda: self.xoa_link_anh())
-        self.btn_xoa_anh.place(x=255,y=200)
+        self.btn_xoa_anh.place(x=220,y=200)
 
         #toa button xac nhan luu id
         self.btn_luu_id=tk.Button(self,text='Xác nhận',command=lambda:[self.luu_id_moi()])
-        self.btn_luu_id.place(x=300,y=300)
+        self.btn_luu_id.place(x=200,y=269)
 
         self.button = tk.Button(self, text="Trở về",
                            command=lambda: [controller.show_frame("StartPage"),self.reload_page()])
-        self.button.pack(side='bottom')
+        self.button.place(x=290,y=269)
 
 
     def fileDialog(self):
@@ -321,7 +321,7 @@ class PageTwo(tk.Frame):
         self.controller = controller
         self.linkfile_id='.\\stranger\\'
         #add Label
-        self.lbl_danh_sach_nguoi_la=tk.Label(self,text='Danh sách')
+        self.lbl_danh_sach_nguoi_la=tk.Label(self,text='Danh sách:')
         self.lbl_danh_sach_nguoi_la.place(x=20,y=20)
 
         #tao listbox
@@ -337,7 +337,7 @@ class PageTwo(tk.Frame):
         self.image = self.image.resize((250, 250), Image.ANTIALIAS) ## The (250, 250) is (height, width)
         self.pic = ImageTk.PhotoImage(self.image)
         self.panel=tk.Label(self,image=self.pic)
-        self.panel.place(x=180+130,y=0)
+        self.panel.place(x=180+130,y=10)
 
         #tao button trở về
         self.btn_tro_ve=tk.Button(self,text='Trở về',command=lambda: controller.show_frame("StartPage"))
