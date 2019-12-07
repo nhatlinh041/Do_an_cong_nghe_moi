@@ -121,11 +121,15 @@ def main(args):
                 phase_train_placeholder,
                 args.threshold,
             )
-            flist=os.listdir(self.linkfile_id)
-            self.lbox_id.delete(0,tk.END)
-            for item in flist:
-            self.lbox_id.insert(tk.END,item)   
-                 
+
+            ##Tao folder lưu hình ảnh của stranger trong video
+            flist=os.listdir('stranger')
+            folder_stranger=str(flist[len(flist)-1])
+            if(folder_stranger!='0'):
+                folder_stranger=str(int(folder_stranger)+1)
+            else:
+                folder_stranger='1'
+            os.mkdir('.\\stranger\\'+folder_stranger)
             if(args.link_video[0]=='0'):
                 cap = cv2.VideoCapture(0)
             else:
@@ -166,9 +170,9 @@ def main(args):
                             matching_id = "Unknown"
                             print("Unknown! Couldn't fint match.")
                             if(args.link_video[0]!='0'): ##import video
-                                link_img='.//stranger//stranger_in_'+str(i/cap.get(cv2.CAP_PROP_FPS))+'.jpg'
+                                link_img='.//stranger//'+folder_stranger+'//stranger_in_'+str(i/cap.get(cv2.CAP_PROP_FPS))+'.jpg'
                             else:       ##live cam
-                                link_img='.//stranger//stranger_in_'+str(round(-start_time+time.time()))+'.jpg'        
+                                link_img='.//stranger//'+folder_stranger+'//stranger_in_'+str(round(-start_time+time.time()))+'.jpg'        
                             
                         else:
                             print("Hi %s! Distance: %1.4f" %

@@ -14,7 +14,7 @@ class SampleApp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        self.minsize(590,300)
+        self.minsize(590,350)
         self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")        
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
@@ -321,7 +321,7 @@ class PageTwo(tk.Frame):
         self.controller = controller
         self.linkfile_id='.\\stranger\\'
         #add Label
-        self.lbl_danh_sach_nguoi_la=tk.Label(self,text='Danh sách:')
+        self.lbl_danh_sach_nguoi_la=tk.Label(self,text='Danh sách video:')
         self.lbl_danh_sach_nguoi_la.place(x=20,y=20)
 
         #tao listbox
@@ -330,7 +330,7 @@ class PageTwo(tk.Frame):
 
         #lay list file
         self.load_list_id()
-        self.lbox_id.bind('<Double-1>',lambda event: self.onDoubleLeftClick_listbox())
+        self.lbox_id.bind('<<ListboxSelect>>',lambda event: self.onclick_event())
 
         #default img
         self.image = Image.open('.\\Capture.jpg')
@@ -343,11 +343,40 @@ class PageTwo(tk.Frame):
         self.btn_tro_ve=tk.Button(self,text='Trở về',command=lambda: controller.show_frame("StartPage"))
         self.btn_tro_ve.place(x=100,y=300)
 
-    def onDoubleLeftClick_listbox(self):
+        #add button Refresh
+        self.button_refresh=tk.Button(self,text='Refresh',command=lambda: self.load_list_id())
+        self.button_refresh.place(x=10,y=220)
+
+        #add Label
+        self.lbl_danh_sach_nguoi_la=tk.Label(self,text='Danh sách ảnh:')
+        self.lbl_danh_sach_nguoi_la.place(x=180,y=20)
+
+        #tao list image 
+        self.lbox_list_img=tk.Listbox(self,selectmode='single')
+        self.lbox_list_img.place(x=180,y=40)
+        #self.lbox_list_img.pack(side='left')
+
+        #double click len item trong list img 
+        self.lbox_list_img.bind('<Double-1>',lambda event: self.onDoubleLeftClick())
+
+    def onclick_event(self):
+        # curselection() returns a tuple of indexes selected in listbox
         selection = self.lbox_id.curselection()
-        path = self.linkfile_id+'//'+self.lbox_id.get(selection[0])
+        if len(selection) > 0:
+            self.link_file_img=self.linkfile_id
+            self.lbox_list_img.delete(0,tk.END)
+            self.link_file_img=self.link_file_img+'//'+self.lbox_id.get(selection[0])
+            flist_img=os.listdir(self.link_file_img)
+            for i in flist_img:
+                self.lbox_list_img.insert(tk.END,i)
+                
+    def onDoubleLeftClick(self):
+        selection = self.lbox_id.curselection()
+        
+        selection = self.lbox_list_img.curselection()
+        path = self.link_file_img+'//'+self.lbox_list_img.get(selection[0])
         self.image = Image.open(path)
-        self.image = self.image.resize((300, 300), Image.ANTIALIAS) ## The (250, 250) is (height, width)
+        self.image = self.image.resize((250, 250), Image.ANTIALIAS) ## The (250, 250) is (height, width)
         self.pic = ImageTk.PhotoImage(self.image)
         self.panel.destroy()
         self.panel=tk.Label(self,image=self.pic)
@@ -358,8 +387,10 @@ class PageTwo(tk.Frame):
         flist=os.listdir(self.linkfile_id)
         self.lbox_id.delete(0,tk.END)
         for item in flist:
-            self.lbox_id.insert(tk.END,item)
-            
+            if(item!='0'):
+                self.lbox_id.insert(tk.END,item)
+
+        
 if __name__ == "__main__":
     app = SampleApp()
     app.mainloop()
