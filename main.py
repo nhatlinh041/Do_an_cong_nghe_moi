@@ -121,6 +121,11 @@ def main(args):
                 phase_train_placeholder,
                 args.threshold,
             )
+            flist=os.listdir(self.linkfile_id)
+            self.lbox_id.delete(0,tk.END)
+            for item in flist:
+            self.lbox_id.insert(tk.END,item)   
+                 
             if(args.link_video[0]=='0'):
                 cap = cv2.VideoCapture(0)
             else:
