@@ -162,6 +162,8 @@ class StartPage(tk.Frame):
             self.link_file_img=self.linkfile_id+'//'+self.lbox_id.get(selection[0])
             flist_img=shutil.rmtree(self.link_file_img)
             self.load_list_id()
+        else:
+            messagebox.showinfo('Cảnh báo','Chưa chọn id để xóa')
 
     def onDoubleLeftClick(self):
         selection = self.lbox_list_img.curselection()
@@ -304,12 +306,21 @@ class PageOne(tk.Frame):
         ten_id=ten_id.strip()
         ten_id=ten_id.replace(' ','_')
         path = ".\\ids\\"+ten_id
-        os.mkdir(path)
-        index=1
-        for i in self.lbox_list_img_id_moi.get(0,tk.END):
-            des = path+'\\'+ten_id+'_'+str(index)+'.jpg'
-            shutil.copy(i, des)
-            index=index+1
+        if(len(ten_id)>0):
+            if(os.path.isdir(path)):
+                messagebox.showwarning('Cảnh báo','Tên id đã tồn tại. Xin nhập tên khác')
+            else:
+                os.mkdir(path)
+                index=1
+                for i in self.lbox_list_img_id_moi.get(0,tk.END):
+                    des = path+'\\'+ten_id+'_'+str(index)+'.jpg'
+                    shutil.copy(i, des)
+                    index=index+1
+                messagebox.showinfo('Thông báo','Lưu thành công')
+                self.ten_id.delete(0,tk.END)
+        else:
+            messagebox.showwarning('Cảnh báo','Chưa nhập tên id')
+        
         
 
 
